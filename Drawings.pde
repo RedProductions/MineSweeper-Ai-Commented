@@ -2,14 +2,17 @@ void showStats(){
   
   textSize(EDGE_HEIGHT - EDGE_HEIGHT/4);
   
-  if(g.get_bombPlaced() < BOMB_AMOUNT){
+  //green if there are some bomb left to place, red to warn the player that there are no more bombs to place
+  if(game.get_bombPlaced() < BOMB_AMOUNT){
     fill(40, 110, 0);
   }else {
-    float red = g.get_noFlagTime() * 240 / g.get_noFlagTotalTime() + 40;
+    //red flash
+    float red = game.get_noFlagTime() * 240 / game.get_noFlagTotalTime() + 40;
     fill(red, 150 - red, 0);
   }
   
-  text("Flags Left: " + (BOMB_AMOUNT - g.get_bombPlaced()) + "/" + BOMB_AMOUNT, width/2, height - EDGE_HEIGHT/2);
+  //amount of bombs left to place
+  text("Flags Left: " + (BOMB_AMOUNT - game.get_bombPlaced()) + "/" + BOMB_AMOUNT, width/2, height - EDGE_HEIGHT/2);
   
   if(caseSizeX < caseSizeY){
     textSize(caseSizeX);
@@ -25,23 +28,28 @@ void game_over(boolean win){
   
   if(win){
     
+    //set message to victory (and reset countdown) if the game has been won
     fill(40, 110, 0);
     message = "YOU WON IN " + nf((gameTime/1000), 0, 2) + " SECONDS! (RESTARTING IN " + nf(((showFinishTime - (currentTime - finishTime))/1000), 0, 1) + " SECONDS)";
     
   }else {
     
+    //set message to loss if the game was lost
+    //  | ||
+    // || |_
     fill(240, 0, 0);
     message = "YOU LOST AFTER " + nf((gameTime/1000), 0, 2) + " SECONDS!";
     
   }
   
+  //win percentage
   text(message, width/2, height - EDGE_HEIGHT/4 * 3);
   float winRatio = float(winAmount) * 100 / float(winAmount + lostAmount);
   text("WIN RATIO: " + nf(winRatio, 0, 2) + "%", width/2, height - EDGE_HEIGHT/4);
   
 }
 
-
+//draw a flag (ok to set if the flag was correct or wrong)
 void drawFlag(float x, float y, float sizeX, float sizeY, boolean ok) {
 
   fill(0);
@@ -61,6 +69,7 @@ void drawFlag(float x, float y, float sizeX, float sizeY, boolean ok) {
   
 }
 
+//draw a bomb
 void drawBomb(float x, float y, float sizeX, float sizeY){
   
   fill(0);
@@ -70,7 +79,7 @@ void drawBomb(float x, float y, float sizeX, float sizeY){
   
 }
 
-
+//draw the neighbour bomb amount
 void drawDigit(int val, float x, float y) {
 
   switch(val) {
