@@ -46,7 +46,7 @@ class Game{
     //hasn't shown the ending message yet
     canRestart = false;
     
-    //hasn't flip a case
+    //hasn't flipped a case
     allFlipped = false;
     
     //cannot flip a case
